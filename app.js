@@ -78,6 +78,7 @@ io.on("connection", (socket) => {
     newResult.save();
     socket.on("disconnect", () => {
       delete userColors[socket.id];
+      User.deleteOne({ socketId: socket.id });
     });
   });
 
@@ -109,6 +110,8 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(`Client ${socket.id} disconnected!`);
+    User.deleteOne({ socketId: socket.id });
+    delete userColors[socket.id];
   });
 });
 
