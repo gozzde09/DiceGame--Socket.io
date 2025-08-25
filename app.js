@@ -7,6 +7,8 @@ const io = new Server(server);
 const port = 3000;
 const cors = require("cors");
 app.use(cors());
+app.use(express.json());
+app.use(express.static("public"));
 // Mongoose
 const MessageModel = require("./models/messageModel");
 const ResultModel = require("./models/resultModel");
