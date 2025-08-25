@@ -5,7 +5,8 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const port = 3000;
-
+const cors = require("cors");
+app.use(cors());
 // Mongoose
 const MessageModel = require("./models/messageModel");
 const ResultModel = require("./models/resultModel");
