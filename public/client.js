@@ -70,11 +70,13 @@ function uppdateraTarningsspel() {
 }
 
 // Event listener för knappen
-document.getElementById("diceButton").addEventListener("click", uppdateraTarningsspel);
+document
+  .getElementById("diceButton")
+  .addEventListener("click", uppdateraTarningsspel);
 
 socket.on("newDiceRoll", function (result) {
   let item = document.createElement("p");
-  item.innerHTML = result;
-  item.style.color = "orange";
+  item.innerHTML = result.data;
+  item.style.color = result.color; // Sunucudan gelen kullanıcıya özel renk
   messages.appendChild(item);
 });

@@ -39,11 +39,20 @@ app.get("/results", async (req, res) => {
   }
 });
 
+const colors = ["orange", "#17a2b8", "purple", "green", "darkpink", "brown"];
+const userColors = {};
+let colorIndex = 0;
+
 io.on("connection", (socket) => {
   console.log(`A client with id ${socket.id} connected to the chat!`);
+
+  const userColor = colors[colorIndex % colors.length];
+  userColors[socket.id] = userColor;
+  colorIndex++;
+
   // Skicka tärningskastet till alla anslutna klienter
   socket.on("diceRoll", (data) => {
-    io.emit("newDiceRoll", data);
+    io.emit("newDiceRoll", { data, color: userColors[socket.id] });
     // console.log(data);
     const parts = data.match(
       /<i>Kast (\d+): (.+) fick (\d+). Totalt: (\d+)<\/i>/
@@ -67,6 +76,9 @@ io.on("connection", (socket) => {
       date: dateTime,
     });
     newResult.save();
+    socket.on("disconnect", () => {
+      delete userColors[socket.id];
+    });
   });
 
   // Skicka meddelandet till alla anslutna klienter
@@ -75,7 +87,12 @@ io.on("connection", (socket) => {
     // io.emit('newChatMessage', msg.user + ' : ' + msg.message);
     io.emit("newChatMessage", { user: msg.user, message: msg.message });
     let today = new Date();
-    let date =today.getFullYear() +"-" +(today.getMonth() + 1) +"-" +today.getDate();
+    let date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
     let time = today.getHours() + ":" + today.getMinutes();
     let dateTime = date + " " + time;
     let user = msg.user;
