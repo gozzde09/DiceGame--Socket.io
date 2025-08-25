@@ -3,9 +3,16 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
-const port = 3000;
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+const port = process.env.PORT || 3000;
 const cors = require("cors");
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
@@ -14,8 +21,8 @@ app.use(express.static("."));
 // Mongoose
 const MessageModel = require("./models/messageModel");
 const ResultModel = require("./models/resultModel");
-
 const connectionMongoDB = require("./connectionMongoDB");
+
 const { CLIENT_RENEG_LIMIT } = require("tls");
 connectionMongoDB();
 
