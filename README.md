@@ -1,6 +1,7 @@
 🎲 Dice Game - Real-time Multiplayer Game with Socket.io 
 
 A full-stack real-time multiplayer dice game built with Socket.io, Express.js, MongoDB, and vanilla JavaScript. Players can join game at different vehicles, roll dice, chat in real-time, and compete against each other!
+
 🌐 DEMO: https://dicegame-socket.onrender.com
 
 https://github.com/user-attachments/assets/3b9b0f38-1243-4b00-adb3-2d132cc60610
@@ -31,6 +32,7 @@ Express.js
 Socket.io
 MongoDB with Mongoose
 CORS enabled
+cronjob
 
 Frontend:
 Vanilla JavaScript
