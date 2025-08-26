@@ -28,7 +28,6 @@ connectionMongoDB();
 
 app.use(express.static("public"));
 
-// Endpoint för att visa meddelanden från mongoDB
 app.get("/messages", async (req, res) => {
   try {
     const allMessages = await MessageModel.find();
@@ -39,7 +38,7 @@ app.get("/messages", async (req, res) => {
     });
   }
 });
-//results
+
 app.get("/results", async (req, res) => {
   try {
     const allResults = await ResultModel.find();
@@ -86,11 +85,11 @@ io.on("connection", (socket) => {
       kastPoang: kastPoang,
       totalPoang: totalPoang,
       date: dateTime,
+      socketId: socket.id,
     });
     newResult.save();
     socket.on("disconnect", () => {
       delete userColors[socket.id];
-      User.deleteOne({ socketId: socket.id });
     });
   });
 
@@ -116,17 +115,30 @@ io.on("connection", (socket) => {
       message: message,
       user: user,
       date: dateTime,
+      socketId: socket.id,
     });
     newMessage.save();
   });
 
   socket.on("disconnect", () => {
     console.log(`Client ${socket.id} disconnected!`);
-    User.deleteOne({ socketId: socket.id });
     delete userColors[socket.id];
   });
 });
 
 server.listen(port, () => {
   console.log(`Socket.IO server running at http://localhost:${port}/`);
+});
+
+const cron = require("node-cron");
+
+// DELETE messages and results every day at midnight
+cron.schedule("0 0 * * *", async () => {
+  try {
+    await MessageModel.deleteMany({});
+    await ResultModel.deleteMany({});
+    console.log("Messages and results cleaned from DB (cron job)");
+  } catch (err) {
+    console.error("Error while cleaning DB:", err);
+  }
 });

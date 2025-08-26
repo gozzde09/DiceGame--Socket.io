@@ -8,6 +8,7 @@ function append(parent, el) {
 
 const ulMessages = document.getElementById("allMessages");
 const urlM = "https://dicegame-socket.onrender.com/messages";
+// const urlM = "http://localhost:3000//messages";
 
 fetch(urlM)
   .then((resp) => resp.json())
@@ -36,6 +37,7 @@ function append(parent, el) {
 
 const ulResults = document.getElementById("allResults");
 const urlR = "https://dicegame-socket.onrender.com/results";
+// const urlR = "http://localhost:3000//results";
 
 fetch(urlR)
   .then((resp) => resp.json())

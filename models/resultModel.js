@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const ResultSchema = new mongoose.Schema({
   userName: {
@@ -21,6 +21,7 @@ const ResultSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  socketId: String,
 });
 
-module.exports =  mongoose.model("Result", ResultSchema)
+module.exports = mongoose.model("Result", ResultSchema);

@@ -77,6 +77,6 @@ document
 socket.on("newDiceRoll", function (result) {
   let item = document.createElement("p");
   item.innerHTML = result.data;
-  item.style.color = result.color; // Sunucudan gelen kullanıcıya özel renk
+  item.style.color = result.color;
   messages.appendChild(item);
 });
